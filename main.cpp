@@ -19,7 +19,28 @@
 using namespace std;
 
 
+class Timer{
+public:
+    Timer(): start(chrono::steady_clock::now()){
+    }
+    ~Timer(){
+        cout<<"Time in microseconds: "<<chrono::duration_cast<chrono::microseconds>(
+                chrono::steady_clock::now() - start).count()<<endl;
+    }
+private:
+    chrono::steady_clock::time_point start;
+    chrono::steady_clock::time_point end;
+};
+
+
 int main(){
-    cout<<"666";
+    double result;
+    {
+        auto timer = Timer();
+        for (auto i = 0u; i < pow(10, 7); i++) {
+            result = sin(i) + cos(i);
+        }
+    }
+    cout<<result;
     return 0;
 }
