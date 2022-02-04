@@ -33,6 +33,16 @@ private:
 };
 
 
+template<typename Type>
+void print(Type arg){
+    cout<<arg<<endl;
+}
+template<typename Firstype, typename... Types>
+void print(Firstype firstype, Types... args){
+    cout << firstype<< endl;
+    print(args...);
+}
+
 int main(){
     double result;
     {
@@ -41,6 +51,11 @@ int main(){
             result = sin(i) + cos(i);
         }
     }
-    cout<<result;
+
+    auto a = new int(4);
+    a[0]=4;
+    cout<<0[a]<<endl;
+    //cout<<result;
+    print(11,3,"FPMI");
     return 0;
 }
