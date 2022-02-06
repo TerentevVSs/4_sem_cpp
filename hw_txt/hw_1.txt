@@ -15,3 +15,15 @@ pull
 создание новой ветки
 merge
 4. Какие типы контейнеров Вам известны? Классифицируйте все имеющиеся контейнеры STL и их адаптеры.
+4.1 Homogeneous containers
+a. Sequence containers
+array, vector, list, forward_list, deque
+b. Associative containers (Trees)
+set, multiset, map, multimap
+c. Unordered associative containers (Hash tables)
+unordered_set, unordered_multiset, unordered_map, unordered_multimap
+d. Adapters
+stack, queue, priority_queue, forward_list
+4.2 Heterogeneous containers
+a. Pair
+b. Tuple
