@@ -17,9 +17,12 @@ private:
     map<string, string> typenames;
 public:
     Timer(): duration(0), active(false){
-        typenames[typeid(chrono::milliseconds).name()]="milliseconds";
-        typenames[typeid(chrono::microseconds).name()]="microseconds";
         typenames[typeid(chrono::nanoseconds).name()]="nanoseconds";
+        typenames[typeid(chrono::microseconds).name()]="microseconds";
+        typenames[typeid(chrono::milliseconds).name()]="milliseconds";
+        typenames[typeid(chrono::seconds).name()]="seconds";
+        typenames[typeid(chrono::minutes).name()]="minutes";
+        typenames[typeid(chrono::hours).name()]="hours";
     }
     ~Timer(){
         cout<<"Timer died! Time in "<<typenames[typeid(T).name()]<< ": " <<duration<<endl;
