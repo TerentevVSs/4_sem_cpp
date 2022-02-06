@@ -49,8 +49,8 @@ public:
     float get_time() const{
         return duration;
     }
-    void print_time(){
-        cout<<"Time in "<<typenames[typeid(T).name()]<< ": " <<duration<<endl;
+    void print_time() const{
+        cout<<"Time in "<<typenames.at(typeid(T).name())<< ": " <<duration<<endl;
     }
     void reset(){
         duration=0;
