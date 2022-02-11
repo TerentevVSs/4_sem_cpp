@@ -18,12 +18,17 @@
 #include <iostream>
 using namespace std;
 
+class Fraction {
+public:
+    Fraction(int numerator, unsigned denuminator): numerator(numerator), denuminator(denuminator){}
+private:
+    int numerator;
+    unsigned denuminator;
+};
 
 int main(){
-    vector<int> numbers;
-    for (auto i=0; i<300; i++){
-        numbers.push_back(i);
-        cout<<numbers.size()<<" "<<numbers.capacity()<<endl;
-    }
+    deque<Fraction> deq;
+    deq.emplace_back(3,5);
+    cout<<deq.size();
     return 0;
 }
