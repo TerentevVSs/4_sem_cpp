@@ -17,18 +17,26 @@
 #include <cmath>
 #include <chrono>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 
 int main(){
-    map<string, unsigned> grades;
-    grades["Denis"] = 3;
-    grades.insert({"Ilya", 5});
-    cout<<count_if(grades.begin(), grades.end(), [](auto data){return data.second==5;})<<endl;
-    for(const auto& student_grade: grades){
-        cout<<student_grade.first<<": "<<student_grade.second<<endl;
+    multimap<int, string> groups;
+    groups.emplace(831, "Nikita");
+    groups.insert({831, "Victor"});
+    groups.insert({831, "Alex"});
+    groups.insert({002, "Johnny"});
+    groups.insert({002, "Valery"});
+    groups.insert({001, "Pyotr"});
+
+    for(const auto& [group, student]: groups)
+        cout << setw(3) << setfill('0') <<
+        group << ": " << setw(10) << setfill(' ') << student << endl;
+    auto [left, right]= groups.equal_range(831);
+    while(left!=right){
+        cout<<left->second<<endl;
+        left++;
     }
-    for(const auto& [student, grade]: grades)
-        cout << student << ": " << grade << endl;
     return 0;
 }
