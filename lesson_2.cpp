@@ -20,6 +20,10 @@ using namespace std;
 
 
 int main(){
-    cout<<'0';
+    vector<int> numbers;
+    for (auto i=0; i<300; i++){
+        numbers.push_back(i);
+        cout<<numbers.size()<<" "<<numbers.capacity()<<endl;
+    }
     return 0;
 }
