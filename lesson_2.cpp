@@ -19,11 +19,16 @@
 #include <iostream>
 using namespace std;
 
-#define RANGE(container) container.begin(), container.end()
 
 int main(){
-    vector<int> nums{3,-4,5, 94,-23};
-    sort(RANGE(nums), [](auto l, auto r){return l<r;});
-    copy(RANGE(nums),ostream_iterator<int>(cout, " "));
+    map<string, unsigned> grades;
+    grades["Denis"] = 3;
+    grades.insert({"Ilya", 5});
+    cout<<count_if(grades.begin(), grades.end(), [](auto data){return data.second==5;})<<endl;
+    for(const auto& student_grade: grades){
+        cout<<student_grade.first<<": "<<student_grade.second<<endl;
+    }
+    for(const auto& [student, grade]: grades)
+        cout << student << ": " << grade << endl;
     return 0;
 }
