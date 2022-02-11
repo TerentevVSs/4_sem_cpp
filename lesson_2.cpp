@@ -18,17 +18,8 @@
 #include <iostream>
 using namespace std;
 
-class Fraction {
-public:
-    Fraction(int numerator, unsigned denuminator): numerator(numerator), denuminator(denuminator){}
-private:
-    int numerator;
-    unsigned denuminator;
-};
 
 int main(){
-    deque<Fraction> deq;
-    deq.emplace_back(3,5);
-    cout<<deq.size();
+
     return 0;
 }
