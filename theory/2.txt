@@ -37,3 +37,7 @@ map, set
 ключ,значение, для ключей свойства set
 элементы - pair
 
+multimap
+.equal_range()
+.lower_bound()
+.upper_bound()
