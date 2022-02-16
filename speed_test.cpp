@@ -5,17 +5,16 @@
 #include <list>
 #include <forward_list>
 #include <cmath>
-#include <iterator>
 #include <chrono>
-#include <algorithm>
-using namespace std;
 #include "Timer.h"
+
+
+using namespace std;
 
 int main(){
 
     srand(unsigned(time(nullptr)));
-    const int N=1000000;
-    //const int N=100;
+    const int N=2000000;
     array<int, N> ar;
     vector<int> vec(N);
     deque<int> deq(N);
