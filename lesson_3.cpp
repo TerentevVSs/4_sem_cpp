@@ -28,5 +28,8 @@ int main(){
                               1ll, [](auto lhs, auto rhs){return lhs*rhs;});
     cout<<sum<<endl;
     cout<<product<<endl;
+    vector<int> reversed_seq;
+    reverse_copy(seq.begin(), seq.end(), back_inserter(reversed_seq));
+    cout<<reversed_seq<<endl;
     return 0;
 }
