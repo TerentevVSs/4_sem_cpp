@@ -32,5 +32,9 @@ int main(){
     reverse_copy(seq.begin(), seq.end(), back_inserter(reversed_seq));
     cout<<reversed_seq<<endl;
     cout<<inner_product(seq.begin(), seq.end(), reversed_seq.begin(), 0)<<endl;
+    vector<int> transformed;
+    transform(seq.begin(), seq.end(), seq.begin(), back_inserter(transformed),
+              [](auto data1, auto data2){return data1*data2;});
+    cout<<accumulate(transformed.begin(), transformed.end(), 0);
     return 0;
 }

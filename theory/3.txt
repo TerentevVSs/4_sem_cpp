@@ -9,5 +9,8 @@ iota(a.begin(), a.end(), 0)-последовательность [value++]
 accumulate
 inner_product
 
-algorithm
-reverse_copy
+<algorithm>
+reverse_copy(a.begin(), a.end(), back_inserter())
+reverse(a.begin(), a.end())
+transform(a.begin(), a.end(),back_inserter(b),[](auto data){return data*data;}); -
+унарная операция к каждому элементу диапазона или к каждой паре бинарной операции
