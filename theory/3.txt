@@ -8,3 +8,6 @@ ecr(...)-нок
 iota(a.begin(), a.end(), 0)-последовательность [value++]
 accumulate
 inner_product
+
+algorithm
+reverse_copy

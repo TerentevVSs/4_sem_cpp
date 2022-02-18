@@ -31,5 +31,6 @@ int main(){
     vector<int> reversed_seq;
     reverse_copy(seq.begin(), seq.end(), back_inserter(reversed_seq));
     cout<<reversed_seq<<endl;
+    cout<<inner_product(seq.begin(), seq.end(), reversed_seq.begin(), 0)<<endl;
     return 0;
 }
