@@ -14,3 +14,22 @@ transform(a.begin(), a.end(),back_inserter(b),[](auto data){return data*data;});
 унарная операция к каждому элементу диапазона или к каждой паре бинарной операции
 
 <random>
+генератор<-seed источник рандома
+распределения - закон которому подчиняются элементы
+auto seed = chrono::steady_clock::now().time_since_epoch().count();
+auto gen = mt19937(seed); //mersenne twister
+auto distributon = uniform_int_distribution(1, 10);
+cout<<distributon(gen);
+generate_n
+
+алгоритмы
+модиф
+немодиф
+алг разделения
+для работы с отсортированными диапазонами nth_element
+nth_element - n-й элемент в отсортированном диапазоне
+
+iterator
+next()
+prev()
+distance(,)
