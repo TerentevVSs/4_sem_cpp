@@ -1,0 +1,10 @@
+<random>
+back_inserter(vec) - итератор вставки, обоачивает push_back
+inserter
+
+<numeric>
+gcd(...)-нод,
+ecr(...)-нок
+iota(a.begin(), a.end(), 0)-последовательность [value++]
+accumulate
+inner_product
