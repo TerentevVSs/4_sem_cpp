@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(untitled)
+project(4_sem_cpp)
 
 set(CMAKE_CXX_STANDARD 23)
 SET(CMAKE_CXX_FLAGS -pthread)
@@ -10,3 +10,4 @@ add_executable(lesson_2 lesson_2.cpp)
 add_executable(hw_2_1 speed_test.cpp)
 add_executable(hw_2_2 phone_directory.cpp)
 add_executable(lesson_3 lesson_3.cpp)
+add_executable(hw_3 ex_1_20.cpp)
