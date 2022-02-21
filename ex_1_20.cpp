@@ -81,7 +81,7 @@ int main(){
     reverse(p3.begin(), p3.end());
     cout<<"15. "<<p3;
     // 16. top 3 of p3
-    partial_sort(p3.begin(), p3.begin()+3, p3.end(), greater<int>());
+    partial_sort(p3.begin(), p3.begin()+3, p3.end(), greater<>());
     cout<<"16. ";
     copy(p3.begin(), p3.begin()+3, ostream_iterator<int>(cout, " "));
     cout<<endl;
@@ -97,7 +97,7 @@ int main(){
     // 19. range of equal 1 in p4
     auto start = lower_bound(p4.begin(), p4.end(), 1);
     auto end = upper_bound(p4.begin(), p4.end(), 1);
-    cout<<"19. Lower bound = "<<start-p4.begin()<<"; Upper bound = "<<end-p4.end()<<endl;
+    cout<<"19. Lower bound = "<<start-p4.begin()<<"; Upper bound = "<<end-p4.begin()<<endl;
     // 20. print all
     cout<<"20. p1 = "<<p1;
     cout<<"20. p2 = "<<p2;
