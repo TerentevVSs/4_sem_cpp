@@ -38,6 +38,7 @@ int main(){
             cout << "Extension: " << current_file_path.extension() << endl;
         }
     }
+    // JSON
     vector<int> num = {3,526,73,436};
     map<string, string> to_send = {{"ff", "fe"},
                                    {"sef", "sef"}};
