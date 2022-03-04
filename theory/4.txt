@@ -1,0 +1,5 @@
+<filesystem>
+path - класс пути
+оператор /
+.is_directory()
+"main.cpp"=stem.extension
