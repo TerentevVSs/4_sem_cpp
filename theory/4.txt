@@ -3,3 +3,6 @@ path - класс пути
 оператор /
 .is_directory()
 "main.cpp"=stem.extension
+
+JSON - JavaScriptObjectNotation
+JS: object из пар ключ-значение

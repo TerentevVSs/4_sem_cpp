@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iterator>
 #include <filesystem>
+#include "json.hpp"
 using namespace std;
 
 
@@ -37,6 +38,12 @@ int main(){
             cout << "Extension: " << current_file_path.extension() << endl;
         }
     }
-
+    vector<int> num = {3,526,73,436};
+    map<string, string> to_send = {{"ff", "fe"},
+                                   {"sef", "sef"}};
+    nlohmann::json from_map(to_send);
+    nlohmann::json from_list(num);
+    cout<<from_map.dump(4)<<endl;
+    cout<<from_list.dump()<<endl;
     return 0;
 }
