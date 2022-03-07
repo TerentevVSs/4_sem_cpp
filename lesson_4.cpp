@@ -31,4 +31,5 @@ int main() {
                                 " +99528888888 \n";
     auto result = search(pattern, test_sequence);
     std::copy(std::begin(result), std::end(result), std::ostream_iterator<std::string>(std::cout, " "));
+    return 0;
 }
