@@ -6,3 +6,15 @@ path - класс пути
 
 JSON - JavaScriptObjectNotation
 JS: object из пар ключ-значение
+
+<regex>
+regex_search
+regex_replace
+regex_iterator - итератор на вхождения
+sregex_iterator - итератор на вхождения
+2 итератора
+1-й начало строки, конец строки, шаблон
+2-й пустой
+чтобы string -> метод str()
+буква или цифра \w{2}
+d-цифра \d{5}-\d{4}

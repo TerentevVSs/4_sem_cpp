@@ -1,50 +1,34 @@
 #include <iostream>
-#include <fstream>
 #include <iterator>
-#include <filesystem>
-#include "json.hpp"
-using namespace std;
+#include <regex>
+#include <vector>
 
+std::vector<std::string> search(const std::regex& pattern,
+                                const std::string& text) {
+    auto begin = std::sregex_iterator(std::begin(text),
+                                      std::end(text), pattern);
+    auto end = std::sregex_iterator();
+    std::vector<std::string> results(std::distance(begin, end));
+    std::transform(begin, end, std::back_inserter(results), [](auto x){
+        return x.str();
+    });
+    return results;
+}
 
-int main(){
-    filesystem::path parent_directory("..");
-    auto path_to_main = parent_directory / "lesson_4.cpp";
-    auto copy_path = parent_directory / "copy_lesson_4.cpp";
-    // absolute and relative paths
-    cout<<filesystem::absolute(copy_path)<<endl;
-    cout<<filesystem::relative(copy_path)<<endl;
-    cout<<endl;
-    // copy file
-    filesystem::remove(copy_path);
-    filesystem::copy(path_to_main, copy_path);
-    fstream reader(copy_path, ios::in);
-    copy(istream_iterator<string>(reader),
-            istream_iterator<string>(),
-            ostream_iterator<string>(cout, " "));
-    reader.close();
-    filesystem::remove(copy_path);
-    // loop in directory
-    auto directory_for_lookup = parent_directory / "cmake-build-debug";
-    filesystem::directory_iterator begin{directory_for_lookup};
-    filesystem::directory_iterator end;
-    for(auto it = begin; it!=end; it++){
-        // get info about files
-        auto& current_file_path = it->path();
-        cout<<"Full path: "<<filesystem::absolute(current_file_path)<<endl;
-        auto is_directory = filesystem::is_directory(current_file_path);
-        cout<<"Is a directory: "<<boolalpha<<is_directory<<endl;
-        if(!is_directory) {
-            cout << "Stem: " << current_file_path.stem() << endl;
-            cout << "Extension: " << current_file_path.extension() << endl;
-        }
-    }
-    // JSON
-    vector<int> num = {3,526,73,436};
-    map<string, string> to_send = {{"ff", "fe"},
-                                   {"sef", "sef"}};
-    nlohmann::json from_map(to_send);
-    nlohmann::json from_list(num);
-    cout<<from_map.dump(4)<<endl;
-    cout<<from_list.dump()<<endl;
-    return 0;
+int main() {
+    std::regex pattern(R"((\+7|8)\s?(\([498][0-9]{2}\)|[498][0-9]{2})\s?[0-9]{3}(-?[0-9]{2}){2})");
+    std::string test_sequence = " +79528888888 \n"
+                                " +75528888888 \n"
+                                " 88888888888 \n"
+                                " 8(888)888-88-88 \n"
+                                " +7(888)888-88-88 \n"
+                                " 8 (888) 888-88-88 \n"
+                                " +7 (888) 888-88-88 \n"
+                                " +74528888888 \n"
+                                " +7452888-88-88 \n"
+                                " +7452888-8888 \n"
+                                " 79528888888 \n"
+                                " +99528888888 \n";
+    auto result = search(pattern, test_sequence);
+    std::copy(std::begin(result), std::end(result), std::ostream_iterator<std::string>(std::cout, " "));
 }
