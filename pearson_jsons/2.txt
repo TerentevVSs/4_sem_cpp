@@ -1,0 +1,11 @@
+{
+    "Address": "Moscow",
+    "Birthday": {
+        "Day": 13,
+        "Month": "13",
+        "Year": 666
+    },
+    "Name": "Vladimir",
+    "Phone": "666",
+    "Surname": "Putin"
+}

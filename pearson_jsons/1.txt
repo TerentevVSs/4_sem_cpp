@@ -1,0 +1,11 @@
+{
+    "Address": "Dolgopa",
+    "Birthday": {
+        "Day": 30,
+        "Month": "october",
+        "Year": 2002
+    },
+    "Name": "Vova",
+    "Phone": "+79100017821",
+    "Surname": "Terentev"
+}
