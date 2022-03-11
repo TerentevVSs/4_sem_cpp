@@ -2,11 +2,7 @@
 #include <vector>
 #include <iterator>
 #include <cmath>
-#include <map>
 #include <string>
-#include <numeric>
-#include <random>
-#include <chrono>
 #include <deque>
 using namespace std;
 

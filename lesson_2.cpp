@@ -1,23 +1,5 @@
-#include <fstream>
-#include <random>
-#include <algorithm>
-#include <map>
-#include <string>
-#include <stack>
-#include <queue>
 #include <deque>
-#include <unordered_set>
-#include <unordered_map>
-#include <iterator>
-#include <optional>
-#include <thread>
-#include <mutex>
-#include <set>
-#include <vector>
-#include <cmath>
-#include <chrono>
 #include <iostream>
-#include <iomanip>
 #include <tuple>
 using namespace std;
 template<typename T, typename... Types>

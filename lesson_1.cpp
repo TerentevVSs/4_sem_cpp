@@ -1,18 +1,5 @@
-#include <fstream>
-#include <random>
-#include <algorithm>
-#include <map>
-#include <string>
-#include <stack>
-#include <queue>
+
 #include <deque>
-#include <unordered_set>
-#include <iterator>
-#include <optional>
-#include <thread>
-#include <mutex>
-#include <set>
-#include <vector>
 #include <cmath>
 #include <chrono>
 #include <iostream>
@@ -37,24 +24,24 @@ template<typename Type>
 void print(Type arg){
     cout<<arg<<endl;
 }
-template<typename Firstype, typename... Types>
-void print(Firstype firstype, Types... args){
-    cout << firstype<< endl;
+template<typename First_type, typename... Types>
+void print(First_type first_type, Types... args){
+    cout << first_type << endl;
     print(args...);
 }
 
 int main(){
-    double result;
+    [[maybe_unused]] double result;
     {
         auto timer = Timer();
         for (auto i = 0u; i < pow(10, 7); i++) {
-            result = sin(i) + cos(i);
+            sin(i) + cos(i);
         }
     }
 
     auto a = new int(4);
     a[0]=4;
-    cout<<0[a]<<endl;
+    cout<<a[0]<<endl;
     //cout<<result;
     print(11,3,"FPMI");
     return 0;

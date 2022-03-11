@@ -1,4 +1,6 @@
 #include <iostream>
+#include <utility>
+#include <utility>
 #include <vector>
 #include <cmath>
 #include <map>
@@ -21,8 +23,8 @@ private:
     string number;
 public:
     User()=default;
-    User(string name): name(name){};
-    User(string name, string number): name(name), number(number){};
+    explicit User(string name): name(std::move(std::move(name))){};
+    User(string name, string number): name(std::move(std::move(name))), number(std::move(std::move(number))){};
     string get_name(){
         return name;
     }
@@ -41,7 +43,7 @@ class PhoneDirectory{
 private:
     vector<string> names;
     map<string, string> data;
-    string generate_name() const{
+    [[nodiscard]] string generate_name() const{
         unsigned id = rand();
         id = id%names.size();
         return names[id];
@@ -54,7 +56,7 @@ public:
         data.insert({name, number});
         names.push_back(name);
     }
-    string get_random_number() const{
+    [[nodiscard]] string get_random_number() const{
         string name = generate_name();
         auto number_pair= data.find(name);
         if (number_pair==data.end()){
@@ -64,7 +66,7 @@ public:
             return number_pair->second;
         }
     }
-    const User get_random_user() const{
+    [[nodiscard]] User get_random_user() const{
         string name = generate_name();
         auto number_pair= data.find(name);
         if (number_pair==data.end()){
@@ -74,7 +76,7 @@ public:
             return User(name, number_pair->second);
         }
     }
-    string get_current_number(const string& name) const{
+    [[nodiscard]] string get_current_number(const string& name) const{
         auto number_pair = data.find(name);
         if (number_pair==data.end()){
             cerr << "You tried to get number of " << name << ". No such user!"<< endl;
@@ -83,7 +85,7 @@ public:
             return number_pair->second;
         }
     }
-    const map<string, string>& get_all_data() const{
+    [[nodiscard]] const map<string, string>& get_all_data() const{
         return data;
     }
 };

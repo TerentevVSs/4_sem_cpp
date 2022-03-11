@@ -15,7 +15,7 @@ int main(){
 
     srand(unsigned(time(nullptr)));
     const int N=2000000;
-    array<int, N> ar;
+    array<int, N> ar{};
     vector<int> vec(N);
     deque<int> deq(N);
     list<int> li(N);

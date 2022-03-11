@@ -2,7 +2,6 @@
 #include <vector>
 #include <iterator>
 #include <cmath>
-#include <map>
 #include <string>
 #include <numeric>
 #include <random>
@@ -27,7 +26,7 @@ int main(){
     // 2. cin add
     for(int i=0; i<3; i++)
     {
-        int ad;
+        [[maybe_unused]] int ad;
         //cin>>ad;
         p1.push_back(i+1);
     }
