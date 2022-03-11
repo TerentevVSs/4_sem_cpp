@@ -1,64 +1,51 @@
 #include <iostream>
 #include <thread>
-#include <future>
-#include <sstream>
+#include <vector>
+#include <numeric>
 
 using namespace std;
 
-void print_word(const string &word) {
-    cout << "The word is " << word << endl;
+template<typename Iterator, typename T>
+T parallel_accumulate(Iterator first, Iterator last, T init);
+
+template<typename Iterator, typename T>
+void accumulate_block(Iterator first, Iterator last, T init, T &result) {
+    result = parallel_accumulate(first, last, result);
 }
 
-string return_word(const string &word) {
-    cout << "Returning word " + word << endl;
-    stringstream ss;
-    ss << "The word is " << word << endl;
-    return ss.str();
-}
-
-class WordHolder {
-public:
-    explicit WordHolder(string word) : word(std::move(word)) {}
-
-    void print_word() const {
-        cout << word << endl;
+template<typename Iterator, typename T>
+T parallel_accumulate(Iterator first, Iterator last, T init) {
+    auto length = distance(first, last);
+    if (length < thread::hardware_concurrency() * 4) {
+        return parallel_accumulate(first, last, init);
     }
-
-private:
-    string word;
-};
-
-void write_word(const string &word, string &out) {
-    cout << "word";
-    out = word;
+    auto num_workers = thread::hardware_concurrency();
+    auto length_per_thread = (length + num_workers - 1) / num_workers;
+    vector<thread> threads;
+    vector<T> results(num_workers - 1);
+    for (auto i = 0u; i < num_workers - 1; i++) {
+        auto beginning = next(first, i * length_per_thread);
+        auto ending = next(first, (i + 1) * length_per_thread);
+        threads.push_back(
+                thread(
+                        accumulate_block<Iterator, T>,
+                        beginning, ending, 0, ref(results[i])));
+    }
+    auto main_result = parallel_accumulate(next(first,
+                                                (num_workers - 1) * length_per_thread),
+                                           last, init);
+    for (auto &thread: threads) {
+        thread.join();
+    }
+    return parallel_accumulate(begin(results), end(results), main_result);
 }
 
 int main() {
-    thread first_thread(print_word, "FIRST");
-    thread second_thread(print_word, "SECOND");
-    print_word("MAIN");
-    first_thread.join();
-    second_thread.join();
-
-    future<string> first_future(
-            async(launch::async,
-                  return_word,
-                  "FIRST")); // начать выполнять сразу
-    future<string> second_future(
-            async(launch::deferred,
-                  return_word,
-                  "SECOND"));// только в последний момент
-    cout << return_word("MAIN");
-    cout << first_future.get(); // требуем результат немедленно
-    cout << second_future.get();
-    string to_write = "WORD";
-    string result;
-    // ref, cref - передача ссылок
-    thread write_thread(write_word, cref(to_write), ref(result));
-    write_thread.join();
-    cout << result << endl;
-    WordHolder holder("HELD");
-    thread class_thread(&WordHolder::print_word, ref(holder));
-    class_thread.join();
+    vector<int> test_sequence(100u);
+    iota(test_sequence.begin(), test_sequence.end(), 0);
+    auto result = parallel_accumulate<decltype(
+            begin(test_sequence))>(begin(test_sequence),
+                                   end(test_sequence), 0);
+    cout<<result;
     return 0;
 }
