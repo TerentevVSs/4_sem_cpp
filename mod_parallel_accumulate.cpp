@@ -14,10 +14,10 @@ void accumulate_block(Iterator first, Iterator last, T init, T &result) {
 }
 
 template<typename Iterator, typename T>
-T parallel_accumulate(Iterator first, Iterator last, T init, unsigned int num_workers=thread::hardware_concurrency()){ //
+T parallel_accumulate(Iterator first, Iterator last, T init, unsigned int num_workers=thread::hardware_concurrency()){
     // 1. Проверили длину
     auto length = distance(first, last);
-    if (length < 4 * thread::hardware_concurrency()) {
+    if (length < 4 * num_workers) {
         return accumulate(first, last, init);
     }
     // 2. Длина достаточна, распараллеливаем
