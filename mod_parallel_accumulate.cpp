@@ -22,7 +22,6 @@ parallel_accumulate(Iterator first, Iterator last, T init, unsigned int num_work
         return accumulate(first, last, init);
     }
     // 2. Длина достаточна, распараллеливаем
-    //auto num_workers = thread::hardware_concurrency();
     // Вычислили длину для одного потока
     auto length_per_thread = (length + num_workers - 1) / num_workers;
     // Векторы с потоками и результатами
