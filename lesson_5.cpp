@@ -21,7 +21,7 @@ class WordHolder {
 public:
     explicit WordHolder(string word) : word(std::move(word)) {}
 
-    static void print_word() const {
+    void print_word() const {
         cout << word << endl;
     }
 
@@ -59,6 +59,7 @@ int main() {
     write_thread.join();
     cout << result << endl;
     WordHolder holder("HELD");
-    thread class_thread(WordHolder::print_word, ref(holder));
+    thread class_thread(&WordHolder::print_word, ref(holder));
+    class_thread.join();
     return 0;
 }
