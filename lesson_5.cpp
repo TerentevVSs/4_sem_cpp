@@ -11,31 +11,33 @@ void accumulate_block(Iterator first, Iterator last, T init, T &result) {
 }
 
 template<typename Iterator, typename T>
-T parallel_accumulate(Iterator first, Iterator last, T init) {
+T parallel_accumulate(Iterator first, Iterator last, T init, unsigned num_workers=55) {
     // 1. Проверили длину
     auto length = distance(first, last);
-    if (length < 32) {
+    if (length < 4 * num_workers) {
         return accumulate(first, last, init);
     }
     // 2. Длина достаточна, распараллеливаем
-    auto num_workers = thread::hardware_concurrency();
     // Вычислили длину для одного потока
     auto length_per_thread = (length + num_workers - 1) / num_workers;
     // Векторы с потоками и результатами
     vector<thread> threads;
     vector<T> results(num_workers - 1);
     // 3. Распределяем данные (концепция полуинтервалов!)
-    for (auto i = 0u; i < num_workers - 1; i++) {
-        auto beginning = next(first, i * length_per_thread);
-        auto ending = next(first, (i + 1) * length_per_thread);
+    auto beginning = first;
+    auto ending = next(first, length_per_thread);
+    for (int i = 0; i < num_workers - 1; i++) {
+        beginning = min(next(first, i * length_per_thread), last);
+        ending = min(next(first, (i + 1) * length_per_thread), last);
         // 4. Запускаем исполнителей
         threads.push_back(thread(
                 accumulate_block<Iterator, T>,
                 beginning, ending, 0, ref(results[i])));
     }
     // Остаток данных -- в родительском потоке
-    auto main_result = accumulate(next(first,
-                                       (num_workers - 1) * length_per_thread),
+    auto main_result = accumulate(min(next(first,
+                                           (num_workers - 1) * length_per_thread),
+                                      last),
                                   last, init);
     // std::mem_fun_ref -- для оборачивания join().
     for_each(begin(threads),
@@ -48,7 +50,7 @@ T parallel_accumulate(Iterator first, Iterator last, T init) {
 }
 
 int main() {
-    vector<int> test_sequence(100u);
+    vector<int> test_sequence(1000);
     iota(test_sequence.begin(), test_sequence.end(), 0);
     auto result =
             parallel_accumulate(begin(test_sequence),

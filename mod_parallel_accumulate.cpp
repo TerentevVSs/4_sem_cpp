@@ -28,16 +28,20 @@ T parallel_accumulate(Iterator first, Iterator last, T init,
     vector<thread> threads;
     vector<T> results(num_workers - 1);
     // 3. Распределяем данные (концепция полуинтервалов!)
-    for (auto i = 0u; i < num_workers - 1; i++) {
-        auto beginning = next(first, i * length_per_thread);
-        auto ending = next(first, (i + 1) * length_per_thread);
+    auto beginning = first;
+    auto ending = next(first, length_per_thread);
+    for (auto i = 0; i < num_workers - 1; i++) {
+        beginning = min(next(first, i * length_per_thread), last);
+        ending = min(next(first, (i + 1) * length_per_thread), last);
         // 4. Запускаем исполнителей
         threads.push_back(thread(
                 accumulate_block<Iterator, T>,
                 beginning, ending, 0, ref(results[i])));
     }
     // Остаток данных -- в родительском потоке
-    auto main_result = accumulate(next(first, (num_workers - 1) * length_per_thread),
+    auto main_result = accumulate(min(next(first,
+                                           (num_workers - 1) * length_per_thread),
+                                      last),
                                   last, init);
     // std::mem_fun_ref -- для оборачивания join().
     for_each(begin(threads), end(threads), mem_fun_ref(&thread::join));
@@ -46,7 +50,7 @@ T parallel_accumulate(Iterator first, Iterator last, T init,
 }
 
 int main() {
-    vector<long long> test_sequence(100000u);
+    vector<long long> test_sequence(100000);
     iota(test_sequence.begin(), test_sequence.end(), 0);
     auto timer = Timer<chrono::microseconds>();
     int n = 100;
@@ -64,7 +68,7 @@ int main() {
     }
     ofstream out;
     out.open("../data.txt");
-    for_each(answers.begin(), answers.end(), [&out, &n](auto data) { out << data / n << endl; });
+    for_each(answers.begin(), answers.end(), [&out, &n](auto data) { out << data / n<< endl;});
     out.close();
 
     return 0;

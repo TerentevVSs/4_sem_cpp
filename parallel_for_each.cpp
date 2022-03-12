@@ -22,17 +22,20 @@ void parallel_for_each(Iterator first, Iterator last, Func func,
     // Вектор с future
     vector<future<void>> futures;
     // 3. Распределяем данные
-    for (auto i = 0u; i < num_workers - 1; i++) {
-        auto beginning = next(first, i * length_per_thread);
-        auto ending = next(first, (i + 1) * length_per_thread);
+    auto beginning = first;
+    auto ending = next(first, length_per_thread);
+    for (auto i = 0; i < num_workers - 1; i++) {
+        beginning = min(next(first, i * length_per_thread), last);
+        ending = min(next(first, (i + 1) * length_per_thread), last);
         futures.push_back(async(launch::async,
                                 [beginning, ending, func]() {
                                     for_each(beginning, ending, func);
                                 }));
     }
     // Остаток данных - в родительском потоке
-    for_each(next(first,
-                  (num_workers - 1) * length_per_thread),
+    for_each(min(next(first,
+                      (num_workers - 1) * length_per_thread),
+                 last),
              last, func);
     // mem_fun_ref -- для оборачивания get().
     for_each(begin(futures),
@@ -42,12 +45,12 @@ void parallel_for_each(Iterator first, Iterator last, Func func,
 
 
 int main() {
-    vector<int> test_sequence(666);
+    vector<int> test_sequence(666666);
     iota(test_sequence.begin(), test_sequence.end(), 0);
     parallel_for_each(begin(test_sequence),
                       end(test_sequence),
                       [](auto &data) { data *= data; },
-                      13);
+                      42);
     copy(test_sequence.begin(),
          test_sequence.end(),
          ostream_iterator<int>(cout, "\n"));
