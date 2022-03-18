@@ -17,6 +17,11 @@
         класс std::scoped_lock c c++17
         RAII - resource allocation is initialization
         std::unique_lock()
+        копилка (из документации)
+            1 переменная
+            функция transfer 1 копилка => 2 копилка
+            unique_block(std::mutex, std::defer_lock)
+            std::defer_lock - не забирает mutex сразу
 3. Сложение не в 1 действие
     каждому процессу соответствует областт памяти - stack
     ячейки памяти с которыми процессор может совершать операции - регистры
