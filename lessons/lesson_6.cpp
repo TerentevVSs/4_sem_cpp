@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <mutex>
+#include <atomic>
 using namespace std;
 
 
@@ -26,13 +27,23 @@ void function_for_main(const string& word){
     other_lock.unlock();
     lock_cout.unlock();
 }
-
+int some_variable=0;
+atomic<int> atomic_variable=0;
+void function(){
+    for(auto i=0; i<300000; i++){
+        atomic_variable+=1;
+    }
+}
 
 int main() {
-    string word = "DGAP";
-    lock(lock_cout, other_lock);
-    thread other(function_for_thread, "DGAP");
-    function_for_main("LPR");
+//    string word = "DGAP";
+//    lock(lock_cout, other_lock);
+//    thread other(function_for_thread, "DGAP");
+//    function_for_main("LPR");
+//    other.join();
+    thread other(function);
+    function();
     other.join();
+    cout<<atomic_variable;
     return 0;
 }
