@@ -1,38 +1,51 @@
 #include <thread>
-#include <numeric>
 #include <iostream>
-#include <vector>
+#include <stack>
 #include <mutex>
-#include <atomic>
 
 using namespace std;
 
-
-mutex lock_cout;
-mutex other_lock;
-template<typename Mutex>
-class RAIILockWrapper{
+template<typename T>
+class ThreadSafeStack{
 public:
-    RAIILockWrapper(Mutex& given): m(given){
-        m.lock();
+    ThreadSafeStack(): st(){};
+    void push(T elem){
+        lock_guard guard(m);
+        st.push(elem);
     }
-    ~RAIILockWrapper(){
-        m.unlock();
+    T top(){
+        lock_guard guard(m);
+        return st.top();
+    }
+    void pop(){
+        lock_guard guard(m);
+        st.pop();
+    }
+    size_t size(){
+        lock_guard guard(m);
+        return st.size();
     }
 private:
-    Mutex& m;
-};
-mutex m;
-void print_word(const string& word) {
-    lock_guard wrapper(m);
-    cout<< "ABC "<<"DEF "<<word<<" s else ";
+    stack<T> st;
+    mutex m;
 };
 
+void push_n_times(ThreadSafeStack<int>& st, int n){
+    for(auto i=0; i<n; i++){
+        st.push(1);
+    }
+}
 
 int main() {
-    string word = "DGAP";
-    thread other(print_word, "DGAP");
-    print_word("LPR");
-    other.join();
+    ThreadSafeStack<int> st;
+    for(auto i=0; i<30000; i++){
+        st.push(i);
+    }
+    thread t(push_n_times, ref(st), 30000);
+    for(auto i=0; i<30000; i++){
+        st.pop();
+    }
+    t.join();
+    cout<<st.size();
     return 0;
 }
