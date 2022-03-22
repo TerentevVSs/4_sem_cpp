@@ -6,9 +6,8 @@
 
 using namespace std;
 
-
 template<typename Iterator, typename T>
-void accumulate_block(Iterator first, Iterator last, T& init, mutex& m) {
+void accumulate_block(Iterator first, Iterator last, T &init, mutex &m) {
     auto result = accumulate(first, last, 0);
     m.lock();
     init += result;
@@ -16,8 +15,8 @@ void accumulate_block(Iterator first, Iterator last, T& init, mutex& m) {
 }
 
 template<typename Iterator, typename T>
-void parallel_accumulate(Iterator first, Iterator last, T& init,
-                      unsigned int num_workers = thread::hardware_concurrency()) {
+void parallel_accumulate(Iterator first, Iterator last, T &init,
+                         unsigned int num_workers = thread::hardware_concurrency()) {
     // 1. Проверили длину
     mutex m;
     auto length = distance(first, last);
@@ -43,8 +42,8 @@ void parallel_accumulate(Iterator first, Iterator last, T& init,
     }
     // Остаток данных - в родительском потоке
     auto result = accumulate(min(next(first,
-                               (num_workers - 1) * length_per_thread),
-                          last), last, 0);
+                                      (num_workers - 1) * length_per_thread),
+                                 last), last, 0);
     m.lock();
     init += result;
     m.unlock();
@@ -55,9 +54,9 @@ void parallel_accumulate(Iterator first, Iterator last, T& init,
 int main() {
     vector<long long> test_sequence(666);
     iota(test_sequence.begin(), test_sequence.end(), 0);
-    int sum=0;
+    int sum = 0;
     parallel_accumulate(begin(test_sequence),
                         end(test_sequence), sum, 42);
-    cout<<sum<<endl;
+    cout << sum << endl;
     return 0;
 }
