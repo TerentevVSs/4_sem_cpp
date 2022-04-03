@@ -21,3 +21,8 @@ add_executable(lesson_6 lessons/lesson_6.cpp)
 add_executable(hw_6_1 mutex_parallel_accumulate.cpp)
 add_executable(hw_6_2 mutex_queue.cpp)
 add_executable(lesson_7 lessons/lesson_7.cpp)
+
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+add_executable(sender lessons/sender.cpp)
+add_executable(receiver lessons/receiver.cpp)
