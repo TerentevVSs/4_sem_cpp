@@ -1,0 +1,4 @@
+Python Embedding
+1. Вызов скрипта без аргументов
+2. Вызов функции с передачей аргументов и получением ответа
+DLL - dynamic linked libraries .dll
